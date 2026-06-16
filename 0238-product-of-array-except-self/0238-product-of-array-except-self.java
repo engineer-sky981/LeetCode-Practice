@@ -3,15 +3,21 @@ class Solution {
         int n = nums.length;
         int[] answer = new int[n];
 
-        answer[0] = 1;
-        for (int i = 1; i < n; i++) {
-            answer[i] = answer[i - 1] * nums[i - 1];
-        }
+        // Sabhi elements ko pehle 1 se fill kar dein
+        Arrays.fill(answer, 1);
 
+        int prefix = 1;
         int suffix = 1;
-        for (int i = n - 1; i >= 0; i--) {
-            answer[i] = answer[i] * suffix;
-            suffix *= nums[i];
+
+        // Single loop mein left aur right dono sweep ek sath chalenge
+        for (int i = 0; i < n; i++) {
+            // Left side se product multiply karein
+            answer[i] *= prefix;
+            prefix *= nums[i];
+
+            // Right side se product multiply karein
+            answer[n - 1 - i] *= suffix;
+            suffix *= nums[n - 1 - i];
         }
 
         return answer;
